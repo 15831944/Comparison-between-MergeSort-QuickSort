@@ -11,6 +11,14 @@ To : Compare the performance between Merge Sort and Quick Sort
 
 using namespace std;
 
+const int sizee=5000;
+struct valueOfPerformance
+{
+    int  mergePerformance ;
+    int  quickPerformance ;
+
+};
+
 ///Merging sort
 void mergee(int arr[], int left, int middle, int right)
 {
@@ -95,7 +103,7 @@ void quickSort(int arr[], int left, int right )
     }
 }
 
-void basicFunction(int arr1 [] ,int arr2[], int sizee )
+void basicFunction(int arr1 [] ,int arr2[], int sizee , valueOfPerformance arr[],int n)
 {
     for(int i=0 ; i<sizee ; i++)
     {
@@ -127,20 +135,53 @@ void basicFunction(int arr1 [] ,int arr2[], int sizee )
 
      if (periodQuick<periodMerge) cout<<"Quick sort is faster .It's " <<double(periodMerge*1.0/periodQuick)<<" faster"<<endl<<endl ;
      else cout<<"Merge sort is faster.It's " <<double(periodQuick*1.0/periodMerge)<<" faster"<<endl<<endl ;
-
+     arr[n].mergePerformance= periodMerge;
+     arr[n].quickPerformance= periodQuick;
 }
 int main()
 {
-    int arr1[5000]; int arr12[5000];
-    basicFunction(arr1,arr12, 5000 ) ;
+    valueOfPerformance perfArr[20];
+    for (int i=0 ; i<20 ; i++)
+    {
+        int arr1[sizee+(i*sizee)]; int arr12[sizee+(i*sizee)];
+        basicFunction(arr1,arr12, sizee+(i*sizee) , perfArr,i ) ;
 
-    int arr2[10000];  int arr22[10000];
-    basicFunction(arr2,arr22, 10000 ) ;
+
+    }
 
 
-    int arr3[100000]; int arr32[100000];
-     basicFunction(arr3,arr32, 100000 ) ;
+    //it prints the array
+    // for (int i=0 ; i<3 ; i++)
+    //  {
+    //     cout<<perfArr[i].mergePerformance <<" "<<perfArr[i].quickPerformance <<endl ;
+    //   }
+  /* cout<<endl<<"The Histogram of merge sort performance "<<endl;
+   for (int i=0 ; i<20 ; i++ )
+   {    cout<<endl<<"for "<<sizee+(sizee*i)<<" ";
+       for (int j=0 ; j<perfArr[i].mergePerformance ; j++) cout<<"-";
+   }
+   cout<<endl<<"The Histogram of Quick sort performance "<<endl;
+   for (int i=0 ; i<20 ; i++ )
+   {    cout<<endl<<"for "<<sizee+(sizee*i)<<" ";
+       for (int j=0 ; j<perfArr[i].quickPerformance ; j++) cout<<"-";
+   }*/
+   cout<<"The graphs which illustrate the performance "<<endl;
+   cout<<"For merge sort "<<endl;
+   for (int i=0 ; i<perfArr[19].mergePerformance ;i++)
+   {   for (int j=0 ; j<20 ;j++){
+       if (perfArr[j].mergePerformance+i<perfArr[19].mergePerformance) cout<<" " ;
+       else cout<<"|";
 
+   } cout<<endl;
+   }
+   cout<<"For Quick sort "<<endl;
+   for (int i=0 ; i<perfArr[19].quickPerformance ;i++)
+   {   for (int j=0 ; j<20 ;j++){
+       if (perfArr[j].quickPerformance+i<perfArr[19].quickPerformance) cout<<" " ;
+       else cout<<"|";
+
+   } cout<<endl;
+   }
 
     return 0;
 }
