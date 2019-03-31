@@ -130,11 +130,12 @@ void basicFunction(int arr1 [] ,int arr2[], int sizee , valueOfPerformance arr[]
 
     quickSort(arr2,0,sizee-1);
     TheEndQuick= clock();
-    clock_t periodQuick = TheEndQuick - startQuick;
+    clock_t periodQuick = (TheEndQuick - startQuick);
      cout<<"The time of sorting an array sized "<<sizee <<" using Quick sort is : " <<periodQuick <<" time unit"<<endl;
 
      if (periodQuick<periodMerge) cout<<"Quick sort is faster .It's " <<double(periodMerge*1.0/periodQuick)<<" faster"<<endl<<endl ;
-     else cout<<"Merge sort is faster.It's " <<double(periodQuick*1.0/periodMerge)<<" faster"<<endl<<endl ;
+     else if (periodQuick>periodMerge) cout<<"Merge sort is faster.It's " <<double(periodQuick*1.0/periodMerge)<<" faster"<<endl<<endl ;\
+     else cout<<"They are equal in performance "<<endl ;
      arr[n].mergePerformance= periodMerge;
      arr[n].quickPerformance= periodQuick;
 }
@@ -165,19 +166,27 @@ int main()
    {    cout<<endl<<"for "<<sizee+(sizee*i)<<" ";
        for (int j=0 ; j<perfArr[i].quickPerformance ; j++) cout<<"-";
    }*/
+   int maxiMerge= perfArr[0].mergePerformance;
+   int maxiQuick=perfArr[0].quickPerformance;
+   for (int i=1 ; i<20 ; i++)
+    {
+        if (maxiMerge<perfArr[i].mergePerformance) maxiMerge = perfArr[i].mergePerformance;
+        if (maxiQuick<perfArr[i].quickPerformance) maxiQuick = perfArr [i].quickPerformance;
+    }
+
    cout<<"The graphs which illustrate the performance "<<endl;
    cout<<"For merge sort "<<endl;
-   for (int i=0 ; i<perfArr[19].mergePerformance ;i++)
+   for (int i=0 ; i<maxiMerge ;i++)
    {   for (int j=0 ; j<20 ;j++){
-       if (perfArr[j].mergePerformance+i<perfArr[19].mergePerformance) cout<<" " ;
+       if (perfArr[j].mergePerformance+i<maxiMerge) cout<<" " ;
        else cout<<"|";
 
    } cout<<endl;
    }
    cout<<"For Quick sort "<<endl;
-   for (int i=0 ; i<perfArr[19].quickPerformance ;i++)
+   for (int i=0 ; i<maxiQuick ;i++)
    {   for (int j=0 ; j<20 ;j++){
-       if (perfArr[j].quickPerformance+i<perfArr[19].quickPerformance) cout<<" " ;
+       if (perfArr[j].quickPerformance+i<maxiQuick) cout<<" " ;
        else cout<<"|";
 
    } cout<<endl;
