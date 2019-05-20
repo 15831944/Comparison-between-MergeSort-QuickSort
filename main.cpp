@@ -11,15 +11,48 @@ To : Compare the performance between Merge Sort and Quick Sort
 
 using namespace std;
 
-const int sizee=5000;
-struct valueOfPerformance
-{
-    int  mergePerformance ;
-    int  quickPerformance ;
-
-};
-
 ///Merging sort
+void mergee(int arr[], int left, int middle, int right);
+void mergeSort (int arr[],int left, int right );
+///Quick sort
+int dividing (int arr[], int left, int right);
+void quickSort(int arr[], int left, int right );
+void GetPerformance(int arr1 [],int arr2[],int  mergePerformance [], int quickPerformance[], int sizee,int n);
+void Graphing (int Max, int perfArr []);
+
+int main()
+{
+
+    int  mergePerformance [20],  quickPerformance[20];
+
+    for (int i=0 ; i<20 ; i++)
+    {
+        int arr1[5000+(i*5000)];
+        int arr12[5000+(i*5000)];
+        GetPerformance(arr1,arr12, mergePerformance,quickPerformance, 5000+(i*5000),i ) ;
+    }
+
+    int maxiMerge= mergePerformance[0];
+    int maxiQuick=quickPerformance[0];
+
+    ///Getting max value for each
+    for (int i=1 ; i<20 ; i++)
+    {
+        if (maxiMerge<mergePerformance[i])
+            maxiMerge = mergePerformance[i];
+        if (maxiQuick<quickPerformance[i])
+            maxiQuick = quickPerformance[i];
+    }
+    cout<<"The graphs which illustrate the performance "<<endl;
+    cout<<"For merge sort "<<endl;
+    Graphing (maxiMerge, mergePerformance) ;
+    cout<<"For Quick sort "<<endl;
+    Graphing(maxiQuick, quickPerformance) ;
+
+
+    return 0;
+}
+
 void mergee(int arr[], int left, int middle, int right)
 {
     int i, j, k;
@@ -31,7 +64,7 @@ void mergee(int arr[], int left, int middle, int right)
     int *L = new int [size1];
     int *R = new int [size2];
 
-   // storing data of the original array into the two temp arrays
+    // storing data of the original array into the two temp arrays
     for (i = 0; i < size1; i++)
         L[i] = arr[left + i];
 
@@ -39,7 +72,9 @@ void mergee(int arr[], int left, int middle, int right)
         R[j] = arr[middle + 1+ j];
 
     //Now we merge the two temp arrays
-    i=0 ; j=0 ; k = left ;
+    i=0 ;
+    j=0 ;
+    k = left ;
 
     while ( (i<size1) && (j<size2) )
     {
@@ -62,7 +97,7 @@ void mergee(int arr[], int left, int middle, int right)
     delete [] L ;
 }
 
-void mergeSort (int arr[] ,int left , int right )
+void mergeSort (int arr[],int left, int right )
 {
     if (right>left)
     {
@@ -74,7 +109,7 @@ void mergeSort (int arr[] ,int left , int right )
     }
 }
 ///Quick sort
-int dividing (int arr[] , int left , int right)
+int dividing (int arr[], int left, int right)
 {
     int pivot = arr [right];
     int IndexOfGrearter = left -1 ;
@@ -103,13 +138,13 @@ void quickSort(int arr[], int left, int right )
     }
 }
 
-void basicFunction(int arr1 [] ,int arr2[], int sizee , valueOfPerformance arr[],int n)
+void GetPerformance(int arr1 [],int arr2[],int  mergePerformance [], int quickPerformance[], int sizee,int n)
 {
     for(int i=0 ; i<sizee ; i++)
     {
         arr1[i]=  rand() % 1000000 + 0;
     }
-     for(int i=0 ; i<sizee ; i++)
+    for(int i=0 ; i<sizee ; i++)
     {
         arr2[i]=  arr1[i];
     }
@@ -121,7 +156,7 @@ void basicFunction(int arr1 [] ,int arr2[], int sizee , valueOfPerformance arr[]
     mergeSort(arr1,0,sizee-1);
     TheEndMerge= clock();
     clock_t periodMerge = TheEndMerge - startMerge;
-     cout<<"The time of sorting an array sized "<<sizee <<" using merge sort is : " <<periodMerge <<" time unit"<<endl;
+    cout<<"The time of sorting an array sized "<<sizee <<" using merge sort is : " <<periodMerge <<" time unit"<<endl;
 
     clock_t    startQuick;
     clock_t    TheEndQuick;
@@ -131,66 +166,29 @@ void basicFunction(int arr1 [] ,int arr2[], int sizee , valueOfPerformance arr[]
     quickSort(arr2,0,sizee-1);
     TheEndQuick= clock();
     clock_t periodQuick = (TheEndQuick - startQuick);
-     cout<<"The time of sorting an array sized "<<sizee <<" using Quick sort is : " <<periodQuick <<" time unit"<<endl;
+    cout<<"The time of sorting an array sized "<<sizee <<" using Quick sort is : " <<periodQuick <<" time unit"<<endl;
 
-     if (periodQuick<periodMerge) cout<<"Quick sort is faster .It's " <<double(periodMerge*1.0/periodQuick)<<" faster"<<endl<<endl ;
-     else if (periodQuick>periodMerge) cout<<"Merge sort is faster.It's " <<double(periodQuick*1.0/periodMerge)<<" faster"<<endl<<endl ;\
-     else cout<<"They are equal in performance "<<endl ;
-     arr[n].mergePerformance= periodMerge;
-     arr[n].quickPerformance= periodQuick;
+    if (periodQuick<periodMerge)
+        cout<<"Quick sort is faster .It's " <<double(periodMerge*1.0/periodQuick)<<" faster"<<endl<<endl ;
+    else if (periodQuick>periodMerge)
+        cout<<"Merge sort is faster.It's " <<double(periodQuick*1.0/periodMerge)<<" faster"<<endl<<endl ;
+    else
+        cout<<"They are equal in performance "<<endl ;
+    mergePerformance[n]= periodMerge;
+    quickPerformance[n]= periodQuick;
 }
-int main()
+void Graphing (int Max, int perfArr [])
 {
-    valueOfPerformance perfArr[20];
-    for (int i=0 ; i<20 ; i++)
+    for (int i=0 ; i<Max ; i++)
     {
-        int arr1[sizee+(i*sizee)]; int arr12[sizee+(i*sizee)];
-        basicFunction(arr1,arr12, sizee+(i*sizee) , perfArr,i ) ;
+        for (int j=0 ; j<20 ; j++)
+        {
+            if (perfArr[j]+i<Max)
+                cout<<" " ;
+            else
+                cout<<"|";
 
-
+        }
+        cout<<endl;
     }
-
-
-    //it prints the array
-    // for (int i=0 ; i<3 ; i++)
-    //  {
-    //     cout<<perfArr[i].mergePerformance <<" "<<perfArr[i].quickPerformance <<endl ;
-    //   }
-  /* cout<<endl<<"The Histogram of merge sort performance "<<endl;
-   for (int i=0 ; i<20 ; i++ )
-   {    cout<<endl<<"for "<<sizee+(sizee*i)<<" ";
-       for (int j=0 ; j<perfArr[i].mergePerformance ; j++) cout<<"-";
-   }
-   cout<<endl<<"The Histogram of Quick sort performance "<<endl;
-   for (int i=0 ; i<20 ; i++ )
-   {    cout<<endl<<"for "<<sizee+(sizee*i)<<" ";
-       for (int j=0 ; j<perfArr[i].quickPerformance ; j++) cout<<"-";
-   }*/
-   int maxiMerge= perfArr[0].mergePerformance;
-   int maxiQuick=perfArr[0].quickPerformance;
-   for (int i=1 ; i<20 ; i++)
-    {
-        if (maxiMerge<perfArr[i].mergePerformance) maxiMerge = perfArr[i].mergePerformance;
-        if (maxiQuick<perfArr[i].quickPerformance) maxiQuick = perfArr [i].quickPerformance;
-    }
-
-   cout<<"The graphs which illustrate the performance "<<endl;
-   cout<<"For merge sort "<<endl;
-   for (int i=0 ; i<maxiMerge ;i++)
-   {   for (int j=0 ; j<20 ;j++){
-       if (perfArr[j].mergePerformance+i<maxiMerge) cout<<" " ;
-       else cout<<"|";
-
-   } cout<<endl;
-   }
-   cout<<"For Quick sort "<<endl;
-   for (int i=0 ; i<maxiQuick ;i++)
-   {   for (int j=0 ; j<20 ;j++){
-       if (perfArr[j].quickPerformance+i<maxiQuick) cout<<" " ;
-       else cout<<"|";
-
-   } cout<<endl;
-   }
-
-    return 0;
 }
