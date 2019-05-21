@@ -143,11 +143,9 @@ void GetPerformance(int arr1 [],int arr2[],int  mergePerformance [], int quickPe
     for(int i=0 ; i<sizee ; i++)
     {
         arr1[i]=  rand() % 1000000 + 0;
-    }
-    for(int i=0 ; i<sizee ; i++)
-    {
         arr2[i]=  arr1[i];
     }
+ 
     clock_t    startMerge;
     clock_t    TheEndMerge;
 
